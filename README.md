@@ -1,2 +1,2 @@
-# terse
-this is an app to help cross-border , international transactions and online work work seamlessly.
+# payterse
+this is an app to help cross-border payments and exam registartion, international transactions and online work work seamlessly.
