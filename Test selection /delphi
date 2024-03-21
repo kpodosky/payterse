@@ -1,0 +1,99 @@
+ import tkinter as tk
+
+def get_user_input(prompt_label, variable):
+  """Gets user input from an entry widget and stores it in a variable."""
+  def get_input():
+    user_input = entry.get().lower().strip()
+    options = variable.get().split(" or ")
+    if user_input in options:
+      variable.set(user_input)
+      window.destroy()  # Close window after valid input
+    else:
+      print_error_message(f"Invalid choice. Please select from: {' / '.join(options)}")
+
+  window = tk.Tk()
+  window.title("Test Recommendation Tool")
+
+  prompt_text = tk.Label(window, text=prompt_label)
+  prompt_text.pack()
+
+  entry = tk.Entry(window)
+  entry.pack()
+
+  get_button = tk.Button(window, text="Submit", command=get_input)
+  get_button.pack()
+
+  window.mainloop()
+
+def print_error_message(message):
+  """Prints an error message in a separate window."""
+  error_window = tk.Tk()
+  error_window.title("Error")
+  error_label = tk.Label(error_window, text=message)
+  error_label.pack()
+  error_window.mainloop()
+
+def display_results(results):
+  """Displays test recommendations in a separate window."""
+  result_window = tk.Tk()
+  result_window.title("Test Recommendations")
+
+  result_label = tk.Label(result_window, text="Recommended tests based on your selections:")
+  result_label.pack()
+
+  for test, count in results:
+    result_text = tk.Label(result_window, text=f"- {test} ({count} matching conditions)")
+    result_text.pack()
+
+  result_window.mainloop()
+
+def filter_tests(selections):
+  """Filters tests based on user selections and columnB conditions."""
+  # ... (same logic as before) ...
+
+# Define test conditions in dictionary format
+columnB = {
+  # ... (same test conditions as before) ...
+}
+
+# User input variables
+user_selections = {
+  "location": tk.StringVar(),
+  "activity": tk.StringVar(),
+  "test_format": tk.StringVar(),
+  "cost": tk.StringVar(),
+  "transcript": tk.StringVar(),
+  "family": tk.StringVar(),
+}
+
+# Main window
+window = tk.Tk()
+window.title("Test Recommendation Tool")
+
+# Create labels and input fields for each selection
+user_prompts = {
+  "Location": "choose (USA or Canada or Europe or Australia or UK or Ireland or Finland or any)",
+  "activity": "choose (undergraduate or Masters or PhD or work or nursing & social services Or Doctors or short course or Medical)",
+  "Taking the test": "choose (Paper or computer or any)",
+  "cost": "choose (cheap or normal or discount or any)",
+  "Transcript": "choose (1st class or 2nd class or none)",
+  "Bring Family members": "choose (Yes or no or any)"
+}
+
+for prompt, options in user_prompts.items():
+  prompt_label = tk.Label(window, text=prompt)
+  prompt_label.pack()
+
+  entry = tk.Entry(window, textvariable=user_selections[prompt])
+  entry.pack()
+
+# Submit button to trigger input validation and processing
+submit_button = tk.Button(window, text="Submit", command=lambda: filter_tests(dict(user_selections)))
+submit_button.pack()
+
+window.mainloop()
+
+# Process user selections and display results
+selections = dict(user_selections)
+test_counts = filter_tests(selections)
+display_results(test_counts.items()[:1])
